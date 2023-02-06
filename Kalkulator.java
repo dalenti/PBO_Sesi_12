@@ -3,84 +3,119 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javapbo12;
-
-import javax.swing.JTextField;
 
 /**
  *
  * @author LENOVO
  */
-public class Kalkulator extends JFrame{
-    
-    JTextField txt = new JTextField(50);
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
-    JButton b1 = new JButton("1");
-    JButton b2 = new JButton("2");
-    JButton b3 = new JButton("3");
-    JButton b4 = new JButton("4");
-    JButton b5 = new JButton("5");
-    JButton b6 = new JButton("6");
-    JButton b7 = new JButton("7");
-    JButton b8 = new JButton("8");
-    JButton b9 = new JButton("9");
-    JButton b0 = new JButton("0");
-    JButton bEqual = new JButton("=");
-    JButton bPlus = new JButton("+");
-    JButton bMinus = new JButton("-");
-    JButton bMultiply = new JButton("*");
-    JButton bDivide = new JButton("/");
-    JButton bPercent = new JButton("%");
-    JButton bModulo = new JButton("Mod");
-    JButton bExit = new JButton("Exit");
+public class Kalkulator extends JFrame implements ActionListener{
     
+    JTextField input1 = new JTextField();
+    JTextField input2 = new JTextField();
 
-    Kalkulator(int sizex, int sizey){
-        super("Kalkulator Ilmiah");
-        setSize(sizex, sizey);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    JButton tambah = new JButton("+");
+    JButton kurang = new JButton("-");
+    JButton bagi = new JButton("/");
+    JButton perkalian = new JButton("*");
+    JButton modulus = new JButton("mod");
+
+    JLabel equal = new JLabel("\t\t=\t");
+    JLabel hasil = new JLabel("Hasil");
+
+
+    Kalkulator(){
+        super("Kalkulator Sederhana");
+        setSize(450,375);
         setVisible(true);
-        getContentPane().setBackground(Color.BLUE);
-        setLocationRelativeTo(null);
-
-        FlowLayout fl = new FlowLayout();
-        JPanel inputpanel = new JPanel();
-        inputpanel.setLayout(fl);
-        inputpanel.add(txt);
-        add(inputpanel, BorderLayout.NORTH);
-
-        GridLayout gl = new GridLayout(3, 5);
-        JPanel buttonpanel = new JPanel();
-        buttonpanel.setLayout(gl);
-
-        buttonpanel.add(b1);
-        buttonpanel.add(b2);
-        buttonpanel.add(b3);
-        buttonpanel.add(b4);
-        buttonpanel.add(b5);
-        buttonpanel.add(b6);
-        buttonpanel.add(b7);
-        buttonpanel.add(b8);
-        buttonpanel.add(b9);
-        buttonpanel.add(b0);
-        buttonpanel.add(bEqual);
-        buttonpanel.add(bPlus);
-        buttonpanel.add(bMinus);
-        buttonpanel.add(bMultiply);
-        buttonpanel.add(bDivide);
-        buttonpanel.add(bPercent);
-        buttonpanel.add(bModulo);
-        buttonpanel.add(bExit);
-
-        
-        add(buttonpanel, BorderLayout.CENTER);
-        
-    }
-
-    public static void main(String[] args) {
-        Kalkulator kal = new Kalkulator(350 , 250);
-    }
-   
-}
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(null);
     
+        //input panel
+        FlowLayout fl = new FlowLayout(FlowLayout.LEFT);
+        JPanel panelinput = new JPanel(fl);
+        panelinput.setBounds(0, 0, 450, 75);
 
+        panelinput.add(input1);
+        input1.setPreferredSize(new Dimension(150, 50));
+
+        panelinput.add(input2);
+        input2.setPreferredSize(new Dimension(150, 50));
+
+        //label
+        
+        panelinput.add(equal);
+        panelinput.add(hasil);
+
+        add(panelinput);
+
+        //button panel
+        JPanel buttonpanel = new JPanel();
+        buttonpanel.setLayout(new BoxLayout(buttonpanel, BoxLayout.Y_AXIS));
+        buttonpanel.setBackground(Color.red);
+        buttonpanel.setBounds(0,75, 300, 250);
+
+        buttonpanel.add(tambah);
+        buttonpanel.add(kurang);
+        buttonpanel.add(perkalian);
+        buttonpanel.add(bagi);
+        buttonpanel.add(modulus);
+
+        tambah.setMaximumSize(new Dimension(300,50));
+        kurang.setMaximumSize(new Dimension(300,50));
+        perkalian.setMaximumSize(new Dimension(300,50));
+        bagi.setMaximumSize(new Dimension(300,50));
+        modulus.setMaximumSize(new Dimension(300,50));
+        
+        add(buttonpanel);
+
+        //register event source
+        tambah.addActionListener(this);
+        kurang.addActionListener(this);
+        perkalian.addActionListener(this);
+        bagi.addActionListener(this);
+        modulus.addActionListener(this);
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        
+        try {
+
+            int x = Integer.parseInt(input1.getText());
+            int y = Integer.parseInt(input2.getText());
+
+            if(e.getActionCommand().equals("+")){
+                hasil.setText(Integer.toString(x + y));
+            }
+            else if(e.getActionCommand().equals("-")){
+                hasil.setText(Integer.toString(x - y));
+            }
+            else if(e.getActionCommand().equals("*")){
+                hasil.setText(Integer.toString(x * y));
+            }
+            else if(e.getActionCommand().equals("/")){
+                hasil.setText(Integer.toString(x / y));
+            }
+            else if(e.getActionCommand().equals("mod")){
+                hasil.setText(Integer.toString(x % y));
+            }
+            
+        } catch (Exception m) { 
+            //TODO: handle masalah
+            hasil.setText(m.getMessage());
+            
+            
+        } 
+        
+    }
+    public static void main(String[] args) {
+        Kalkulator kl = new Kalkulator();
+    }
+    
+}
